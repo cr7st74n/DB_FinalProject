@@ -1,0 +1,14 @@
+html, body {
+  height: 100%; /* Ensure the body and html elements take up full height */
+  margin: 0; /* Remove default margin */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* This allows the main content to grow and take up available space */
+}
+
