@@ -5,10 +5,10 @@
                 <script type="text/javascript">
                 var date=new Date(),
                 year = date.getFullYear(),
-                text = "Copyright © " + year + " GroupX's Resort \n";
+                text = "Copyright © " + year + " TMNT Group \n";
                 document.getElementById("copyrightOutput").innerHTML=text;
                 </script>
-                email:John.Doe@mail.montclair.edu</center>
+                email:bestTMNTFunkos.com</center>
         </div>
 
 </footer>

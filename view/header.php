@@ -4,9 +4,7 @@
   <div class="hero">
     <h1>POPS project</h1>
   </div>
-</div>
-    
-
+</div>  
 
 <nav class="navbar navbar-expand-sm bg-success navbar-dark">
         
@@ -28,16 +26,16 @@
                     <a class="nav-link" href=index.php>Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=yurts.php>Yurts</a>
+                    <a class="nav-link" href=products.php>Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=activities.php>Activities</a>
+                    <a class="nav-link" href=Signin.php>About us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=reservation.php>Reservations</a>
+                    <a class="nav-link" href=Gonzalez_Cristian_a5-1.php>Cart</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=comments.php>Comments</a>
+                    <a class="nav-link" href=Signin.php>Sign in</a>
                 </li>
             </ul>
         </div>
