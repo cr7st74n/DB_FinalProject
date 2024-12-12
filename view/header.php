@@ -32,7 +32,7 @@
                     <a class="nav-link" href=Signin.php>About us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=Gonzalez_Cristian_a5-1.php>Cart</a>
+                    <a class="nav-link" href=addProducts.php>Add Product</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href=Signin.php>Sign in</a>
