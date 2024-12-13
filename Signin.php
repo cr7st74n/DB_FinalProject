@@ -63,9 +63,35 @@ to ensure proper margins
         <br>
     </div>
 
-
 <!--PHP Part ================================================  -->
         <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $uName = $_POST['userName'];
+            $password = $_POST['password'];
+        
+            if (!empty($uName) && !empty($password)) {
+                $query = "SELECT * FROM USERS WHERE UserName = '$uName' LIMIT 1";
+                $result = mysqli_query($con, $query);
+        
+                if ($result && mysqli_num_rows($result) > 0) {
+                    $user_data = mysqli_fetch_assoc($result);
+        
+                    if (password_verify($password, $user_data['PasswordHash'])) {
+                        $_SESSION['user_id'] = $user_data['id'];
+                        header("Location: profile.php");
+                        die;
+                    } else {
+                        echo "Invalid username or password.";
+                    }
+                } else {
+                    echo "Invalid username or password.";
+                }
+            } else {
+                echo "Please enter valid login information.";
+            }
+        }
+        // sing in user
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Retrieve and sanitize form inputs
             $uName = $_POST['userName'] ?? null;
