@@ -55,22 +55,19 @@
                 exit;
             }
 
-            $targetDir = "uploads/";
-            $targetFile = $targetDir . basename($imageFile['name']);
-
+            
             // Prepared statement to prevent SQL injection
-            $query = "INSERT INTO PRODUCTS (Name, Description, Price, Image) 
+            $query = "INSERT INTO PRODUCT (Name, Description, Price, Image) 
                       VALUES (?, ?, ?, ?)";
-            $stmt = $db->prepare($query);
-            $stmt->bind_param('ssds', $pName, $description, $price, $imageFile);
-
-            if ($stmt->execute()) {
-                echo "Product added successfully!";
-            } else {
-                echo "An error has occurred. Please try again.";
+            
+            if($db){
+                move_uploaded_file($_FILES['image']['tmp_mane'],'uploads/'.$_FILES['img']['name']);
+                echo "img updated"
+            }else{
+                echo "error chuch"
             }
 
-            $stmt->close();
+
             $db->close();
         }
         ?>
