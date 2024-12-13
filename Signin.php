@@ -11,7 +11,7 @@ to ensure proper margins
     <?php include('./view/header.php'); ?>
     <h1><?php echo "Log in" ?></h1>
     <div class="container mt-2">
-        <form action="Signin.php" method="post">
+        <form action="login.php" method="post">
             <table border="0">
                 <tr>
                     <td>User Name</td>
@@ -65,31 +65,6 @@ to ensure proper margins
 
 <!--PHP Part ================================================  -->
         <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $uName = $_POST['userName'];
-            $password = $_POST['password'];
-        
-            if (!empty($uName) && !empty($password)) {
-                $query = "SELECT * FROM USERS WHERE UserName = '$uName' LIMIT 1";
-                $result = mysqli_query($con, $query);
-        
-                if ($result && mysqli_num_rows($result) > 0) {
-                    $user_data = mysqli_fetch_assoc($result);
-        
-                    if (password_verify($password, $user_data['PasswordHash'])) {
-                        $_SESSION['user_id'] = $user_data['id'];
-                        header("Location: profile.php");
-                        die;
-                    } else {
-                        echo "Invalid username or password.";
-                    }
-                } else {
-                    echo "Invalid username or password.";
-                }
-            } else {
-                echo "Please enter valid login information.";
-            }
-        }
         // sing in user
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

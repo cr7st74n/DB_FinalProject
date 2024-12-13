@@ -1,40 +1,23 @@
 <?php
 session_start();
-include("connection.php");
-include("functions.php");
-
-$user_data = check_login($con);
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $uName = $_POST['userName'];
-    $password = $_POST['password'];
-
-    if (!empty($uName) && !empty($password) && !is_numeric($uName)) {
-        // Hash the password
-        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-
-        // Save to DB
-        $query = "INSERT INTO USERS (UserName, PasswordHash) VALUES ('$uName', '$passwordHash')";
-        
-        mysqli_query($con, $query);
-        echo "User registered successfully!";
-    } else {
-        echo "Please enter some valid information.";
-    }
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    die;
 }
 
+// Fetch user details (optional if needed)
+include("connection.php");
+$user_id = $_SESSION['user_id'];
+$query = "SELECT * FROM USERS WHERE User_ID = ?";
+$stmt = $con->prepare($query);
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result && $result->num_rows > 0) {
+    $user_data = $result->fetch_assoc();
+    echo "Welcome, " . $user_data['UserName'];
+} else {
+    echo "User not found.";
+}
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<?php include("./view/head.php"); ?>
-<?php include('./view/header.php'); ?>
-
-<body>
-    <h1>Welcome, <?php echo htmlspecialchars($user_data['UserName']); ?>!</h1>
-    <p>Your ID: <?php echo htmlspecialchars($user_data['id']); ?></p>
-
-    <a href="logout.php">Logout</a>
-    <?php include("./view/footer.php"); ?>
-</body>
-</html>
