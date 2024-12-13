@@ -29,13 +29,13 @@
                     <a class="nav-link" href=products.php>Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=Signin.php>About us</a>
+                    <a class="nav-link" href=Signin.php>Log in</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=addProducts.php>Add Product</a>
+                    <a class="nav-link" href=cart.php>Cart</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=Signin.php>Sign in</a>
+                    <a class="nav-link" href=profile.php>Profile</a>
                 </li>
             </ul>
         </div>
