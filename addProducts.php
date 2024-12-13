@@ -40,9 +40,9 @@
             $pName = $_POST['productName'];
             $descriptionProduct = $_POST['description'];
             $price = $_POST['price'];
-            $img = $_FILES['img']['name'];
+            $imageFile = $_FILES['img']['name'];
 
-            if (!$pName || !$descriptionProduct || !$price || !$img) {
+            if (!$pName || !$descriptionProduct || !$price || !$imageFile) {
                 echo "You have not entered all the required details.<br />Please go back and try again.";
                 exit;
             }
@@ -55,13 +55,14 @@
                 exit;
             }
 
-            move_uploaded_file($_FILES['img']['tmp_name'],'uploads/'.$_FILES['img']['productName']);
+            $targetDir = "uploads/";
+            $targetFile = $targetDir . basename($imageFile['name']);
 
             // Prepared statement to prevent SQL injection
             $query = "INSERT INTO PRODUCTS (Name, Description, Price, Image) 
                       VALUES (?, ?, ?, ?)";
             $stmt = $db->prepare($query);
-            $stmt->bind_param('ssds', $pName, $description, $price, $img);
+            $stmt->bind_param('ssds', $pName, $description, $price, $imageFile);
 
             if ($stmt->execute()) {
                 echo "Product added successfully!";
