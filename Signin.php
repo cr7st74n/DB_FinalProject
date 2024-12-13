@@ -89,7 +89,7 @@ to ensure proper margins
             // Prepared statement to prevent SQL injection
             $query = "INSERT INTO USERS (UserName, FirstName, LastName, Email, PasswordHash) 
                       VALUES (?, ?, ?, ?, ?)";
-            $stmt = $db->prepare($query);
+            $stmt = $con->prepare($query);
             $stmt->bind_param('sssss', $uName, $name, $lname, $email, $passwordHash);
 
             if ($stmt->execute()) {
@@ -99,7 +99,7 @@ to ensure proper margins
             }
 
             $stmt->close();
-            $db->close();
+            $con->close();
         }
         ?>
 

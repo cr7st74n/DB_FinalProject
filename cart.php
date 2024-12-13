@@ -10,7 +10,6 @@
 ?>
 
 <body>
-
     <!-- <img src="<?php echo $image_url; ?>"> -->
 
     <h1><?php echo 'Ready to Check out!'; ?></h1>
