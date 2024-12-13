@@ -9,6 +9,29 @@ to ensure proper margins
 
 <body>
     <?php include('./view/header.php'); ?>
+    <h1><?php echo "Log in" ?></h1>
+    <div class="container mt-2">
+        <form action="Signin.php" method="post">
+            <table border="0">
+                <tr>
+                    <td>User Name</td>
+                    <td><input type="text" name="userName" maxlength="255" size="30" required></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="password" name="password" maxlength="100" size="30" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Login"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <br>
+
+    <p><?php echo"Hey! you don't have an account! sing in with us"?></p>
+
+    <h1><?php echo "Sing in with us" ?></h1>
     <div class="container mt-2">
         <form action="Signin.php" method="post">
             <table border="0">
@@ -37,7 +60,11 @@ to ensure proper margins
                 </tr>
             </table>
         </form>
+        <br>
+    </div>
 
+
+<!--PHP Part ================================================  -->
         <?php
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Retrieve and sanitize form inputs
@@ -56,12 +83,7 @@ to ensure proper margins
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
             // Database connection
-            @$db = new mysqli('localhost', 'gonzac43_testuser1', 'U^fdh{?}aMkc', 'gonzac43_finalproject');
-
-            if ($db->connect_error) {
-                echo "Error: Could not connect to database. Please try again later.";
-                exit;
-            }
+            include("connection.php");
 
             // Prepared statement to prevent SQL injection
             $query = "INSERT INTO USERS (UserName, FirstName, LastName, Email, PasswordHash) 
@@ -80,7 +102,6 @@ to ensure proper margins
         }
         ?>
 
-    </div>
     <?php include("./view/footer.php"); ?>
 </body>
 </html>
