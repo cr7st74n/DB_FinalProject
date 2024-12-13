@@ -62,9 +62,9 @@
             
             if($db){
                 move_uploaded_file($_FILES['image']['tmp_mane'],'uploads/'.$_FILES['img']['name']);
-                echo "img updated"
+                echo "img updated";
             }else{
-                echo "error chuch"
+                echo "error chuch";
             }
 
 
