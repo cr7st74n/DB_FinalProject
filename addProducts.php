@@ -40,7 +40,7 @@
             $pName = $_POST['productName'];
             $descriptionProduct = $_POST['description'];
             $price = $_POST['price'];
-            $img = $_POST['img'];
+            $img = $_FILES['img']['productName'];
 
             if (!$pName || !$descriptionProduct || !$price || !$img) {
                 echo "You have not entered all the required details.<br />Please go back and try again.";
@@ -62,7 +62,8 @@
             $stmt->bind_param('sssss', $pName, $description, $price, $img);
 
             if ($stmt->execute()) {
-                echo "User registered successfully!";
+                move_uploaded_file($_FILES['img']['tmp_name'],'uploads/'.$_FILES['img']['productName']);
+                echo "Product added successfully!";
             } else {
                 echo "An error has occurred. Please try again.";
             }
