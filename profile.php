@@ -1,44 +1,28 @@
+<?php
+session_start();
+include("connection.php");
+include("functions.php");
+
+// Ensure user is logged in
+check_login($con);
+$user_data = fetch_user_data($con);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <?php include("./view/head.php"); ?>
-
 <?php include('./view/header.php'); ?>
 
 <body>
+    <h1>Welcome, <?php echo htmlspecialchars($user_data['UserName']); ?></h1>
+    <h2>This is your profile page.</h2>
 
-    <?php
-    session_start();
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: login.php");
-        die;
-    }
-
-    // Fetch user details (optional if needed)
-    include("connection.php");
-    $user_id = $_SESSION['user_id'];
-    $query = "SELECT * FROM USERS WHERE User_ID = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param('i', $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result && $result->num_rows > 0) {
-        $user_data = $result->fetch_assoc();
-        echo "<h1>Welcome, " . htmlspecialchars($user_data['UserName']) . "</h1>";
-        echo "<h1>This is your profile!</h1>";
-        echo "<ul>
-                <li>Insert Title</li>
-                <li>IMG</li>
-                <li>Add to cart</li>
-              </ul>";
-    } else {
-        echo "User not found.";
-    }
-
-    ?>
+    <ul>
+        <li><a href="cart.php">Manage Your Cart</a></li>
+        <li><a href="order_history.php">View Order History</a></li>
+        <li><a href="logout.php">Logout</a></li>
+    </ul>
 
     <?php include("./view/footer.php"); ?>
-
 </body>
-
 </html>
