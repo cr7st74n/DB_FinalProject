@@ -31,7 +31,6 @@
                 <li>IMG</li>
                 <li>Add to cart</li>
               </ul>";
-        header("Location: LoginUser.php");
     } else {
         echo "User not found.";
     }
