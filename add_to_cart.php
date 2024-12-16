@@ -1,25 +1,35 @@
 <?php
-session_start();
-include("connection.php");
-include("functions.php");
+//Add to Cart
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    $productID = $_POST['product_id'];
 
-// Ensure user is logged in
-check_login($con);
+    if ($user_logged_in) {
+        // Check if the product is already in the user's cart
+        $query = "SELECT Quantity FROM CART WHERE User_ID = ? AND Product_ID = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param('ii', $user_id, $productID);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_SESSION['user_id'];
-    $product_id = $_POST['product_id'];
-    $quantity = $_POST['quantity'];
+        if ($result->num_rows > 0) {
+            // Product is already in cart, update the quantity
+            $query = "UPDATE CART SET Quantity = Quantity + 1 WHERE User_ID = ? AND Product_ID = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bind_param('ii', $user_id, $productID);
+            $stmt->execute();
+        } else {
+            // Product is not in cart, insert it
+            $query = "INSERT INTO CART (User_ID, Product_ID, Quantity) VALUES (?, ?, 1)";
+            $stmt = $con->prepare($query);
+            $stmt->bind_param('ii', $user_id, $productID);
+            $stmt->execute();
+        }
 
-    // Insert into cart
-    $query = "INSERT INTO CART (User_ID, Product_ID, Quantity) VALUES (?, ?, ?)";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param('iii', $user_id, $product_id, $quantity);
-
-    if ($stmt->execute()) {
-        header("Location: cart.php");
+        echo "<script>alert('Product added to cart!');</script>";
     } else {
-        echo "Failed to add product to cart.";
+        // Redirect to login page if not logged in
+        header("Location: login.php?product_id=$productID");
+        exit();
     }
 }
 ?>

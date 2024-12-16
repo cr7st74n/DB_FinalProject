@@ -1,12 +1,8 @@
-<!--
-Add a wrapper element with .form-group, around each form control, 
-to ensure proper margins
--->
 <!DOCTYPE html>
 <html lang="en">
 
 <?php include("./view/head.php"); ?>
-
+<!-- Login if you have an account. -->
 <body>
     <?php include('./view/header.php'); ?>
     <h1><?php echo "Log in" ?></h1>
@@ -30,7 +26,7 @@ to ensure proper margins
     <br>
 
     <p><?php echo"Hey! you don't have an account! sing in with us"?></p>
-
+    <!-- Sign in part here  -->
     <h1><?php echo "Sing in with us" ?></h1>
     <div class="container mt-2">
         <form action="Signin.php" method="post">
@@ -62,47 +58,51 @@ to ensure proper margins
         </form>
         <br>
     </div>
+    <!--PHP Part ================================================  -->
+    <?php
+    session_start();
+    include("connection.php");
+    include("functions.php");
+    
+    // Check if product_id is passed
+    $product_id = isset($_GET['product_id']) ? (int)$_GET['product_id'] : null;
 
-<!--PHP Part ================================================  -->
-        <?php
-        // sing in user
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Retrieve and sanitize form inputs
-            $uName = $_POST['userName'] ?? null;
-            $name = $_POST['name'] ?? null;
-            $lname = $_POST['lastName'] ?? null;
-            $email = $_POST['email'] ?? null;
-            $password = $_POST['password'] ?? null;
-
-            if (!$uName || !$name || !$lname || !$email || !$password) {
-                echo "You have not entered all the required details.<br />Please go back and try again.";
-                exit;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+    
+        // Authentication
+        $query = "SELECT * FROM USERS WHERE UserName = ? LIMIT 1";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user_data = $result->fetch_assoc();
+    
+        if ($user_data && password_verify($password, $user_data['PasswordHash'])) {
+            $_SESSION['User_ID'] = $user_data['User_ID'];
+            $_SESSION['UserName'] = $user_data['UserName'];
+    
+            if ($product_id) {
+                $user_id = $user_data['User_ID'];
+                $cart_query = "INSERT INTO CART (User_ID, Product_ID) VALUES (?, ?)";
+                $cart_stmt = $con->prepare($cart_query);
+                $cart_stmt->bind_param('ii', $user_id, $product_id);
+                $cart_stmt->execute();
+    
+                // Redirect back to products page
+                header("Location: products.php");
+                exit();
             }
-
-            // Hash the password
-            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-            // Database connection
-            include("connection.php");
-
-            // Prepared statement to prevent SQL injection
-            $query = "INSERT INTO USERS (UserName, FirstName, LastName, Email, PasswordHash) 
-                      VALUES (?, ?, ?, ?, ?)";
-            $stmt = $con->prepare($query);
-            $stmt->bind_param('sssss', $uName, $name, $lname, $email, $passwordHash);
-
-            if ($stmt->execute()) {
-                echo "User registered successfully!";
-            } else {
-                echo "An error has occurred. Please try again.";
-            }
-
-            $stmt->close();
-            $con->close();
+    
+            // Default page to go
+            header("Location: products.php");
+            exit();
+        } else {
+            echo "<script>alert('Invalid credentials!');</script>";
         }
-        ?>
-
+    }
+    ?>
     <?php include("./view/footer.php"); ?>
 </body>
 </html>

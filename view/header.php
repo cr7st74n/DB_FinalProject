@@ -1,17 +1,14 @@
 <header>
     <div class="container">
         <div class="hero">
-            <h1>POPS Project</h1>
+            <h1>The Teenage Mutant Ninja Turtles Project</h1>
         </div>
     </div>
 
     <nav class="navbar navbar-expand-sm bg-success navbar-dark">
-        <!-- Brand/logo -->
         <a class="navbar-brand">
             <img src="./img/TMNT.png" alt="logo" style="width:60px;">
         </a>
-
-        <!-- Toggler button for small screens -->
         <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -30,7 +27,6 @@
                 <?php
                 session_start();
                 if (isset($_SESSION['user_id'])): ?>
-                    <!-- Display these links if the user is logged in -->
                     <li class="nav-item">
                         <a class="nav-link" href="cart.php">Cart</a>
                     </li>
@@ -41,7 +37,6 @@
                         <a class="nav-link" href="logout.php">Logout</a>
                     </li>
                 <?php else: ?>
-                    <!-- Display these links if the user is NOT logged in -->
                     <li class="nav-item">
                         <a class="nav-link" href="login.php">Log in</a>
                     </li>

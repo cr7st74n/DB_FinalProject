@@ -1,12 +1,11 @@
 <?php
 function check_login($con) {
     if (!isset($_SESSION['user_id'])) {
-        // Redirect to login page if not logged in
+        // Go to the login page if needed
         header("Location: login.php");
         die;
     }
 }
-
 function fetch_user_data($con) {
     if (isset($_SESSION['user_id'])) {
         $user_id = $_SESSION['user_id'];
